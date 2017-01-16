@@ -1,2 +1,8 @@
-.idea
+# Python files/folders
 __pycache__
+
+# Pycharm files
+.idea
+
+# Datafiles
+data.mat
