@@ -16,7 +16,7 @@ def exo_klms(x, y, kernel, learning_rate=0.1, sparsify=None, delay=0):
         regressor = x[i:i+delay+1]
 
         centers = kernel(support_vectors, regressor)
-        estimate[i+delay] = np.dot(np.array(a_coef), centers)
+        estimate[i+delay] = np.dot(np.asarray(a_coef), centers)
 
         error = y[i + delay] - estimate[i + delay]
         error_history.append(error)
