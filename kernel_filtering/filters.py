@@ -1,4 +1,5 @@
 import numpy as np
+from utils import distance_to_dictionary
 
 
 def exo_klms(x, y, kernel, learning_rate=0.1, sparsify=None, delay=0):
@@ -17,10 +18,18 @@ def exo_klms(x, y, kernel, learning_rate=0.1, sparsify=None, delay=0):
         centers = kernel(support_vectors, regressor)
         estimate[i+delay] = np.dot(np.array(a_coef), centers)
 
-        error = y[i+delay] - estimate[i+delay]
+        error = y[i + delay] - estimate[i + delay]
         error_history.append(error)
-        support_vectors.append(regressor)
-        a_coef.append(learning_rate * error)
+
+        if sparsify:
+            # distance = distance_to_dictionary(support_vectors, regressor)
+            distance = centers[::-1]
+            if np.max(distance) <= sparsify[0] and np.abs(error) <= sparsify[1]:
+                support_vectors.append(regressor)
+                a_coef.append(learning_rate * error)
+        else:
+            support_vectors.append(regressor)
+            a_coef.append(learning_rate * error)
 
     return estimate, a_coef, error_history
 
