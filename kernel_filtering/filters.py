@@ -1,19 +1,29 @@
 import numpy as np
-from utils import distance_to_dictionary
 
 
-def exo_klms(x, y, kernel, learning_rate=0.1, sparsify=None, delay=0):
+def klmsx(x, y, kernel, learning_rate=0.1, sparsify=None, delay=0):
+    """ Implementation of multi-channel klms.
+
+    :param x: array of shape (n_samples, n_channels)
+    :param y: array of shape (n_samples, )
+    :param kernel: kernel object from Kernel class
+    :param learning_rate: float with learning rate or eta
+    :param sparsify: optional array-like of 2 elements, delta_dict and delta_error
+    :param delay: optional number of delayed samples to use
+    :return: estimations of y, parameter history and error history
+    """
+
     assert delay <= len(x)
 
     n = x.shape[0]
 
     estimate = np.zeros(y.shape)
-    a_coef = [learning_rate * y[delay]]
-    support_vectors = [x[0:delay+1]]
+    a_coef = np.array([y[delay]])
+    support_vectors = [x[0:delay]]
     error_history = [0]*delay
 
     for i in range(1, n-delay):
-        regressor = x[i:i+delay+1]
+        regressor = x[i:i+delay]
 
         centers = kernel(support_vectors, regressor)
         estimate[i+delay] = np.dot(np.asarray(a_coef), centers)
@@ -22,11 +32,13 @@ def exo_klms(x, y, kernel, learning_rate=0.1, sparsify=None, delay=0):
         error_history.append(error)
 
         if sparsify:
-            # distance = distance_to_dictionary(support_vectors, regressor)
-            distance = centers[::-1]
+            distance = centers
+            a_coef += learning_rate * error * centers
             if np.max(distance) <= sparsify[0] and np.abs(error) <= sparsify[1]:
                 support_vectors.append(regressor)
-                a_coef.append(learning_rate * error)
+                # a_coef.append(learning_rate * error)
+                a_coef = np.append(a_coef, [0.0])
+
         else:
             support_vectors.append(regressor)
             a_coef.append(learning_rate * error)
