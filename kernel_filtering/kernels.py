@@ -2,10 +2,13 @@ import numpy as np
 
 
 class Kernel:
-    """Base class for Kernel products. """
+    """Base class for Kernel definitions. """
 
-    def __init__(self):
+    def __init__(self, params=None):
         super().__init__()
+        if type(params) is not np.ndarray:
+            params = np.asarray(params)
+        self.params = params
 
     def __call__(self, x1, x2):
         raise NotImplementedError("You must instantiate a valid Kernel object")
@@ -25,42 +28,55 @@ class GaussianKernel(Kernel):
     """Gaussian Kernel definition. """
 
     def __init__(self, sigma):
-        super().__init__()
-        self.sigma = sigma
+        super().__init__(sigma)
+        if not sigma > 0:
+            raise ZeroDivisionError("Gaussian Kernel cannot have zero or negative bandwidth.")
 
     def __call__(self, x1, x2):
-        return np.exp(-np.linalg.norm(x1 - x2)**2/(2*self.sigma**2))
+        sigma = self.params
+        if type(x1) is list:
+            x1 = np.asarray(x1).reshape(-1, 1)
+            x2 = np.asarray([x2]*len(x1)).reshape(-1, 1)
+
+            distance = np.linalg.norm(x1 - x2, axis=1)
+
+        else:
+            distance = np.linalg.norm(x1 - x2)
+
+        term = distance**2/(2*sigma**2)
+        return np.exp(-term)
 
 
 class MultiChannelGaussianKernel(Kernel):
-    """ Multi-channel Gaussian Kernel definition."""
+    """ Multi-channel Gaussian Kernel definition. For single channel use Gaussian Kernel."""
 
     def __init__(self, sigmas):
-        super().__init__()
-        if type(sigmas) is not np.ndarray:
-            sigmas = np.array(sigmas)
-        self.sigmas = sigmas
+        super().__init__(sigmas)
+        for sigma in sigmas:
+            if not sigma > 0:
+                raise ZeroDivisionError("Gaussian Kernel cannot have zero or negative bandwidth.")
 
     def __call__(self, x1, x2):
+        sigmas = self.params
         if type(x1) is list:
             x1 = np.asarray(x1)
             x2 = np.asarray([x2]*len(x1))
 
             distance = np.linalg.norm(x1 - x2, axis=1)
-            term_sum = np.sum(distance**2/(2*self.sigmas**2), axis=1)
+            term_sum = np.sum(distance**2/(2*sigmas**2), axis=1)
 
         else:
             distance = np.linalg.norm(x1 - x2, axis=0)
-            term_sum = np.sum(distance**2/(2*self.sigmas**2))
+            term_sum = np.sum(distance**2/(2*sigmas**2))
 
         return np.exp(-term_sum)
 
     def eval(self, x1, x2):
         """Older non-vectorized implementation. """
-        n_channels = len(self.sigmas)
+        n_channels = len(self.params)
 
         term_sum = 0.0
         for i in range(n_channels):
-            term_sum += np.linalg.norm(x1[:, i] - x2[:, i])**2/(2*self.sigmas[i]**2)
+            term_sum += np.linalg.norm(x1[:, i] - x2[:, i])**2/(2*self.params[i]**2)
 
         return np.exp(-term_sum)
