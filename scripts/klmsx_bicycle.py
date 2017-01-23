@@ -2,7 +2,7 @@ import time
 
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.io import loadmat, savemat
+from scipy.io import loadmat
 
 from kernel_filtering.kernels import LinearKernel, GaussianKernel, MultiChannelGaussianKernel
 from kernel_filtering.filters import simple_klms, delayed_klms, klmsx
@@ -18,7 +18,7 @@ if __name__ == "__main__":
     y_a_noise = np.concatenate((y_noise.reshape(-1, 1), a_noise.reshape(-1, 1)), axis=1)
 
     t0 = time.time()
-    f, a, e = klmsx(y_a_noise, y_noise, MultiChannelGaussianKernel(sigmas=(6.42, 25.18)), learning_rate=0.01, delay=30, sparsify=(0.98, 1))
+    f, a, e = klmsx(y_a_noise, y_noise, MultiChannelGaussianKernel(sigmas=(6.42, 25.18)), learning_rate=0.02, delay=30, sparsify=(0.975, 1))
     # f, a, e = klmsx(y_a_noise, y_noise, MultiChannelGaussianKernel(sigmas=(6.42, 25.18)), learning_rate=1, delay=50)
 
     print('Elapsed time: {0:.2f} secs'.format(time.time() - t0))
