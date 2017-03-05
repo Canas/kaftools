@@ -28,12 +28,12 @@ class GaussianKernel(Kernel):
     """Gaussian Kernel definition. """
 
     def __init__(self, sigma):
-        super().__init__(sigma)
+        super().__init__([sigma])
         if not sigma > 0:
             raise ZeroDivisionError("Gaussian Kernel cannot have zero or negative bandwidth.")
 
     def __call__(self, x1, x2):
-        sigma = self.params
+        sigma = self.params[0]
         if x1.ndim > x2.ndim:
             x2 = np.tile(x2.reshape(1, -1), (x1.shape[0], 1))
             distance = np.linalg.norm(x1 - x2, axis=1)
@@ -43,8 +43,8 @@ class GaussianKernel(Kernel):
             distance = np.linalg.norm(x1 - x2, axis=1)
 
         else:
-            x1 = x1.reshape(-1, 1)
-            x2 = x2.reshape(-1, 1)
+            x1 = x1.reshape(1, -1)
+            x2 = x2.reshape(1, -1)
 
             distance = np.linalg.norm(x1 - x2, axis=1)
 
