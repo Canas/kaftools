@@ -7,7 +7,7 @@ class Kernel:
     def __init__(self, params=None):
         super().__init__()
         if type(params) is not np.ndarray:
-            params = np.asarray(params)
+            params = np.array(params).ravel()
         self.params = params
 
     def __call__(self, x1, x2):
@@ -34,14 +34,22 @@ class GaussianKernel(Kernel):
 
     def __call__(self, x1, x2):
         sigma = self.params
-        if type(x1) is list:
-            x1 = np.asarray(x1).reshape(-1, 1)
-            x2 = np.asarray([x2]*len(x1)).reshape(-1, 1)
+        if x1.ndim > x2.ndim:
+            x2 = np.tile(x2.reshape(1, -1), (x1.shape[0], 1))
+            distance = np.linalg.norm(x1 - x2, axis=1)
 
+        elif x2.ndim > x1.ndim:
+            x1 = np.tile(x1.reshape(1, -1), (x2.shape[0], 1))
             distance = np.linalg.norm(x1 - x2, axis=1)
 
         else:
-            distance = np.linalg.norm(x1 - x2)
+            x1 = x1.reshape(-1, 1)
+            x2 = x2.reshape(-1, 1)
+
+            distance = np.linalg.norm(x1 - x2, axis=1)
+
+        # else:
+        #    distance = np.linalg.norm(x1 - x2)
 
         term = distance**2/(2*sigma**2)
         return np.exp(-term)
@@ -58,9 +66,14 @@ class MultiChannelGaussianKernel(Kernel):
 
     def __call__(self, x1, x2):
         sigmas = self.params
-        if type(x1) is list:
-            x1 = np.asarray(x1)
-            x2 = np.asarray([x2]*len(x1))
+        if x1.ndim > x2.ndim:
+            x2 = np.asarray([x2] * len(x1))
+
+            distance = np.linalg.norm(x1 - x2, axis=1)
+            term_sum = np.sum(distance**2/(2*sigmas**2), axis=1)
+
+        elif x2.ndim > x1.ndim:
+            x1 = np.asarray([x1] * len(x2))
 
             distance = np.linalg.norm(x1 - x2, axis=1)
             term_sum = np.sum(distance**2/(2*sigmas**2), axis=1)
