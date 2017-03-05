@@ -6,7 +6,7 @@ from kernel_filtering.kernels import GaussianKernel
 
 if __name__ == "__main__":
     # Cargar datos
-    mat = loadmat("../data/bicycle_data.mat")
+    mat = loadmat("data/bicycle_data.mat")
     y_noise = mat['y_noise'][0]  # voltage signal
 
     # Configurar KLMS

@@ -9,7 +9,7 @@ from kernel_filtering.utils.shortcuts import plot_series
 
 if __name__ == "__main__":
     # Cargar datos
-    mat = loadmat("../data/data.mat")
+    mat = loadmat("data/data.mat")
     voltage_discharge_krr = [voltage_cycle[0] for voltage_cycle in mat['voltage_resample_krr'][0]]
 
     # Configurar KRLS

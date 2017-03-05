@@ -8,7 +8,7 @@ from kernel_filtering.sparsifiers import NoveltyCriterion
 
 if __name__ == "__main__":
     # Cargar datos
-    mat = loadmat("../data/bicycle_data.mat")
+    mat = loadmat("data/bicycle_data.mat")
     y_noise = mat['y_noise'][0]  # voltage signal
     a_noise = mat['a_noise'][0]  # altitude signal
     y_a_noise = np.concatenate((y_noise.reshape(-1, 1), a_noise.reshape(-1, 1)), axis=1)  # [v, a]
