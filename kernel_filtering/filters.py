@@ -1,3 +1,5 @@
+import copy
+
 import numpy as np
 
 from kernel_filtering.kernels import GaussianKernel, MultiChannelGaussianKernel
@@ -54,6 +56,7 @@ class KlmsFilter(Filter):
         self.delay = delay
 
         self.coefficients = np.array([self.y[delay]])
+        self.coefficient_history = [self.coefficients]
         self.support_vectors = np.array([self.x[0:delay]])
 
         self.error_history = [0] * delay
@@ -69,6 +72,8 @@ class KlmsFilter(Filter):
             self.error = self.y[i + delay] - self.estimate[i + delay]
             self.error_history.append(self.error)
 
+            self.coefficients += self.learning_rate * self.error * self.similarity
+
             if kernel_learning_rate:
                 previous_regressor = self.x[i-1:i+delay-1]
                 previous_error = self.error_history[-2]
@@ -89,8 +94,10 @@ class KlmsFilter(Filter):
                 self.support_vectors = np.append(self.support_vectors, [self.regressor], axis=0)
                 self.coefficients = np.append(self.coefficients, [learning_rate * self.error])
 
+            self.coefficient_history.append(np.array([self.coefficients]))
 
-class KlmsxFilter(Filter):
+
+class KlmsxFilter(KlmsFilter):
     """Exogenous MISO KLMS-X filter. """
 
     def __init__(self, x, y):
@@ -99,53 +106,14 @@ class KlmsxFilter(Filter):
         else:
             super().__init__(x, y)
 
-    @timeit
     def fit(self, kernel=MultiChannelGaussianKernel(sigmas=(1.0, 1.0)), learning_rate=1.0, delay=0,
             kernel_learning_rate=None, sparsifiers=None):
 
         if len(kernel.params) != self.x.shape[-1]:
             raise Exception("There must be at least one Kernel parameter per input channel.")
 
-        if delay >= len(self.x):
-            raise Exception("Delay greater than the length of the input.")
-
-        self.learning_rate = learning_rate
-        self.delay = delay
-
-        self.coefficients = np.array([self.y[delay]])
-        self.support_vectors = np.array([self.x[0:delay]])
-
-        self.error_history = [0] * delay
-        self.param_history = [kernel.params]
-
-        for i in range(1, self.n - delay):
-            self.regressor = self.x[i:i + delay]
-
-            self.similarity = kernel(self.support_vectors, self.regressor)
-            self.estimate[i + delay] = np.dot(self.coefficients, self.similarity)
-
-            self.error = self.y[i + delay] - self.estimate[i + delay]
-            self.error_history.append(self.error)
-
-            if kernel_learning_rate:
-                previous_regressor = self.x[i-1:i+delay-1]
-                previous_error = self.error_history[-2]
-
-                sigmas = []
-                for k, sigma in enumerate(kernel.params):
-                    new_sigma = sigma + 2 * learning_rate * kernel_learning_rate * self.error * previous_error * \
-                                        (np.linalg.norm(previous_regressor - self.regressor) ** 2) * \
-                                        kernel(previous_regressor, self.regressor) / sigma ** 3
-                    kernel.params[k] = new_sigma
-                    sigmas.append(new_sigma)
-                self.param_history.append(sigmas)
-
-            if sparsifiers:
-                for sparsifier in sparsifiers:
-                    sparsifier.apply(self)
-            else:
-                self.support_vectors = np.append(self.support_vectors, [self.regressor], axis=0)
-                self.coefficients = np.append(self.coefficients, [learning_rate * self.error])
+        super().fit(kernel=kernel, learning_rate=learning_rate, delay=delay,
+                    kernel_learning_rate=kernel_learning_rate, sparsifiers=sparsifiers)
 
 
 class KrlsFilter(Filter):
@@ -199,5 +167,5 @@ class KrlsFilter(Filter):
                 self.q = np.append(self.q, np.concatenate((q_col, q_end), axis=0), axis=1)
                 self.q = self.r ** (-1) * self.q
 
-                self.coefficients = np.append(self.coefficients, self.r ** (-1) * self.error)
                 self.support_vectors = np.vstack((self.support_vectors, self.regressor.reshape(1, -1)))
+                self.coefficients = np.append(self.coefficients, self.r ** (-1) * self.error)

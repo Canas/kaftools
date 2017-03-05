@@ -1,30 +1,31 @@
 import time
 
-import matplotlib.pyplot as plt
 from scipy.io import loadmat
 
-from kernel_filtering.filters import simple_krls
+from kernel_filtering.filters import KrlsFilter
 from kernel_filtering.kernels import GaussianKernel
+from kernel_filtering.sparsifiers import ApproximateLinearDependency
+from kernel_filtering.utils.shortcuts import plot_series
 
 if __name__ == "__main__":
-    mat = loadmat("../data/raw_data.mat")
-
+    # Cargar datos
+    mat = loadmat("../data/data.mat")
     voltage_discharge_krr = [voltage_cycle[0] for voltage_cycle in mat['voltage_resample_krr'][0]]
-    energy_discharge_krr = [energy_cycle[0] for energy_cycle in mat['energy_resample_krr'][0]]
 
-    x = voltage_discharge_krr[0]
-    y = voltage_discharge_krr[0]
+    # Configurar KRLS
+    krls_params = {
+        'regularizer': 1e-1,
+        'kernel': GaussianKernel(sigma=2.0),
+        'sparsifiers': [ApproximateLinearDependency(threshold=1e-2)]
+    }
+    krls = KrlsFilter(voltage_discharge_krr[0], voltage_discharge_krr[0])
+    krls.fit(**krls_params)
 
-    t0 = time.time()
-    estimates, coefs, errors = simple_krls(x, y, GaussianKernel(sigma=1.0), regularizer=1.0)
-    print("Elapsed time: {0:.2f} seconds".format(time.time() - t0))
-
-    plt.figure()
-    plt.plot(y, 'ro')
-    plt.plot(estimates, 'b-', linewidth=3.0)
-    plt.xlim((40, 200))
-    plt.ylim((2.0, 4.0))
-
-    plt.show()
-
-    print("Done")
+    # Graficar resultados
+    krls_plot = {
+        'title': 'KLRS on NASA data; Nº support vectors: {0}'.format(len(krls.support_vectors)),
+        'xlim': (40, 200),
+        'ylim': (2.0, 4.0),
+        'linewidth': 3.0
+    }
+    plot_series(voltage_discharge_krr[0], krls.estimate, **krls_plot)

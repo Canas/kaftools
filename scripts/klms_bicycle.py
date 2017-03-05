@@ -1,34 +1,28 @@
-import numpy as np
-import matplotlib.pyplot as plt
 from scipy.io import loadmat
+import matplotlib.pyplot as plt
 
-from kernel_filtering.filters import KlmsxFilter
-from kernel_filtering.kernels import MultiChannelGaussianKernel
-from kernel_filtering.sparsifiers import NoveltyCriterion
+from kernel_filtering.filters import KlmsFilter
+from kernel_filtering.kernels import GaussianKernel
 
 if __name__ == "__main__":
     # Cargar datos
     mat = loadmat("../data/bicycle_data.mat")
     y_noise = mat['y_noise'][0]  # voltage signal
-    a_noise = mat['a_noise'][0]  # altitude signal
-    y_a_noise = np.concatenate((y_noise.reshape(-1, 1), a_noise.reshape(-1, 1)), axis=1)  # [v, a]
 
-    # Configurar KLMS-X
-    klmsx_params = {
-        'learning_rate': 0.02,
-        'delay': 30,
-        'kernel': MultiChannelGaussianKernel(sigmas=(6.42, 25.18)),
-        'sparsifiers': [NoveltyCriterion(0.975, 1)]
+    # Configurar KLMS
+    klms_params = {
+        'kernel': GaussianKernel(sigma=0.1),
+        'learning_rate': 5e-4
     }
-    klmsx = KlmsxFilter(y_a_noise, y_noise)
-    klmsx.fit(**klmsx_params)
+    klms = KlmsFilter(y_noise, y_noise)
+    klms.fit(**klms_params)
 
     # Graficar resultados
     # Transient
     fsize = 26
     fig = plt.figure(101, figsize=(16, 4))
     ax = plt.gca()
-    plt.plot(klmsx.estimate, 'b', label='KLMS-X predictions', linewidth=4)
+    plt.plot(klms.estimate, 'b', label='KLMS-X predictions', linewidth=4)
     plt.plot(y_noise, color='red', marker='.', linestyle='None', ms=8, label='true voltage measurements')
     leg = plt.legend(ncol=4, frameon=False, shadow=True, loc=9, prop={'size': fsize})
     frame = leg.get_frame()
@@ -45,7 +39,7 @@ if __name__ == "__main__":
     fsize = 26
     fig = plt.figure(101, figsize=(16, 4))
     ax = plt.gca()
-    plt.plot(klmsx.estimate, 'b', label='KLMS-X predictions', linewidth=4)
+    plt.plot(klms.estimate, 'b', label='KLMS-X predictions', linewidth=4)
     plt.plot(y_noise, color='red', marker='.', linestyle='None', ms=8, label='true voltage measurements')
     leg = plt.legend(ncol=4, frameon=False, shadow=True, loc=9, prop={'size': fsize})
     frame = leg.get_frame()
@@ -62,7 +56,7 @@ if __name__ == "__main__":
     fsize = 26
     fig = plt.figure(101, figsize=(16, 4))
     ax = plt.gca()
-    plt.plot(klmsx.estimate, 'b', label='KLMS-X predictions', linewidth=4)
+    plt.plot(klms.estimate, 'b', label='KLMS-X predictions', linewidth=4)
     plt.plot(y_noise, color='red', marker='.', linestyle='None', ms=8, label='true voltage measurements')
     leg = plt.legend(ncol=4, frameon=False, shadow=True, loc=9, prop={'size': fsize})
     frame = leg.get_frame()
