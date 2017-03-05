@@ -5,9 +5,9 @@ Currently supports Python 3.3+ only.
 
 # Features
 ## Adaptive Kernel Filters
-- Kernel Least Mean Squares (KLMS): `KlmsFilter`
-- Exogenous Kernel Least Mean Squares (KLMS-X): `KlmsxFilter`
-- Kernel Recursive Least Squares: `KrlsFilter`
+- Kernel Least Mean Squares (KLMS) - `KlmsFilter`
+- Exogenous Kernel Least Mean Squares (KLMS-X) - `KlmsxFilter`
+- Kernel Recursive Least Squares (KRLS) - `KrlsFilter`
 
 ## Sparsification Criteria
 - Novelty (KLMS)
