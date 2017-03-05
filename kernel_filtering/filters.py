@@ -1,4 +1,17 @@
-import copy
+# -*- coding: utf-8 -*-
+"""
+kernel_filtering.filters
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+This module provides adaptive kernel filtering classes.
+Currently supports:
+- Kernel Least Mean Squeares (KLMS)
+- Exogenous Kernel Least Mean Squares (KLMS-X)
+- Kernel Recursive Least Squares (KRLS)
+
+Not all filters support all features. Be sure to check the info sheet
+for detailed comparisons.
+"""
 
 import numpy as np
 
@@ -7,6 +20,8 @@ from kernel_filtering.utils.shortcuts import timeit
 
 
 class Filter:
+    """Base class for filter implementations. """
+
     def __init__(self, x, y):
         if x.ndim > 1 and x.shape[-1] == 1:
             self.x = x.ravel()
@@ -48,6 +63,15 @@ class KlmsFilter(Filter):
     @timeit
     def fit(self, kernel=GaussianKernel(sigma=1.0), learning_rate=1.0, delay=0,
             kernel_learning_rate=None, sparsifiers=None):
+        """Fit data using KLMS algorithm.
+
+        :param kernel: Kernel class object
+        :param learning_rate: float with learning rate (eta)
+        :param delay: optinonal number of delayed samples to use
+        :param kernel_learning_rate: float with param learning rate (mu)
+        :param sparsifiers: list with Sparsifier class objects
+        :return: None
+        """
 
         if delay >= len(self.x):
             raise Exception("Delay greater than the length of the input.")
@@ -129,6 +153,14 @@ class KrlsFilter(Filter):
 
     @timeit
     def fit(self, kernel=GaussianKernel(sigma=1.0), regularizer=1.0, sparsifiers=None):
+        """Fit data using KRLS algorithm.
+
+        :param kernel: Kernel class object
+        :param regularizer: float with regularization parameter (lambda)
+        :param sparsifiers: list with Sparsifier class objects
+        :return: None
+        """
+
         self.q = np.array((regularizer + kernel(self.x[0], self.x[0])) ** (-1))
         self.coefficients = np.array([self.q * self.y[0]])
         self.coefficient_history = [self.coefficients]

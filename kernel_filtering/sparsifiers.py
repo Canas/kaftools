@@ -1,3 +1,17 @@
+# -*- coding: utf-8 -*-
+"""
+kernel_filtering.sparsifiers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This module provides sparsifier classes for Sparsification criteria.
+Currently supports:
+- Novelty criterion
+- Approximate Linear Dependency (ALD)
+
+Not all filters support all sparsifiers. Be sure to check the info sheet
+for detailed comparisons.
+"""
+
 import numpy as np
 
 from kernel_filtering.filters import KrlsFilter

@@ -1,3 +1,19 @@
+# -*- coding: utf-8 -*-
+"""
+kernel_filtering.kernels
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+This module provides kernel classes for similarity evaluation.
+Currently supports:
+- LinearKernel
+- GaussianKernel
+- MultiChannelGaussianKernel
+
+Most implementations support comparison between a list of features
+against a single feature to measure distance from one point to the
+rest of a dictionary.
+"""
+
 import numpy as np
 
 
@@ -48,9 +64,6 @@ class GaussianKernel(Kernel):
 
             distance = np.linalg.norm(x1 - x2, axis=1)
 
-        # else:
-        #    distance = np.linalg.norm(x1 - x2)
-
         term = distance**2/(2*sigma**2)
         return np.exp(-term)
 
@@ -81,15 +94,5 @@ class MultiChannelGaussianKernel(Kernel):
         else:
             distance = np.linalg.norm(x1 - x2, axis=0)
             term_sum = np.sum(distance**2/(2*sigmas**2))
-
-        return np.exp(-term_sum)
-
-    def eval(self, x1, x2):
-        """Older non-vectorized implementation. """
-        n_channels = len(self.params)
-
-        term_sum = 0.0
-        for i in range(n_channels):
-            term_sum += np.linalg.norm(x1[:, i] - x2[:, i])**2/(2*self.params[i]**2)
 
         return np.exp(-term_sum)
