@@ -4,5 +4,3 @@ __pycache__
 # Pycharm files
 .idea
 
-# Datafiles
-data.mat
