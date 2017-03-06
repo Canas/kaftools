@@ -3,6 +3,12 @@ This library implements several Kernel Adaptive Filtering algorithms for researc
 
 Currently supports Python 3.3+ only.
 
+# Requirements
+- Python 3
+- NumPy
+- SciPy
+- (Optional) Matplotlib
+
 # Features
 ## Adaptive Kernel Filters
 - Kernel Least Mean Squares (KLMS) - `KlmsFilter`
@@ -29,9 +35,4 @@ klms = KlmsFilter(input, target)
 klms.fit(learning_rate=0.1, kernel=GaussianKernel(sigma=0.1))
 ```
 
-And that's it! 
-
-# Requirements
-- NumPy
-- SciPy
-- (Optional) Matplotlib
+And that's it!
