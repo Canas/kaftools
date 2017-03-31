@@ -11,7 +11,7 @@ if __name__ == "__main__":
 
     # Configurar KLMS
     klms_params = {
-        'kernel': GaussianKernel(sigma=0.1),
+        'kernel': GaussianKernel(sigma=10),
         'learning_rate': 5e-4
     }
     klms = KlmsFilter(y_noise, y_noise)

@@ -61,7 +61,7 @@ class KlmsFilter(Filter):
     """Original SISO KLMS filter with optional delayed input. """
 
     @timeit
-    def fit(self, kernel=GaussianKernel(sigma=1.0), learning_rate=1.0, delay=0,
+    def fit(self, kernel=GaussianKernel(sigma=1.0), learning_rate=1.0, delay=1,
             kernel_learning_rate=None, sparsifiers=None):
         """Fit data using KLMS algorithm.
 
