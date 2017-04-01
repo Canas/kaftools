@@ -8,7 +8,7 @@ from kernel_filtering.utils.shortcuts import plot_series
 
 if __name__ == "__main__":
     # KLMS data
-    mat = loadmat("data/bicycle_data.mat")
+    mat = loadmat("./data/bicycle_data.mat")
     x_noise = mat['x_noise'][0]  # current signal
     y_noise = mat['y_noise'][0]  # voltage signal
     z_noise = mat['z_noise'][0]  # temperature signal
@@ -16,7 +16,7 @@ if __name__ == "__main__":
     y_a_noise = np.concatenate((y_noise.reshape(-1, 1), a_noise.reshape(-1, 1)), axis=1) # [v, a]
 
     # KRLS data
-    mat = loadmat("data/data.mat")
+    mat = loadmat("./data/data.mat")
     voltage_discharge_krr = [voltage_cycle[0] for voltage_cycle in mat['voltage_resample_krr'][0]]
     energy_discharge_krr = [energy_cycle[0] for energy_cycle in mat['energy_resample_krr'][0]]
 
