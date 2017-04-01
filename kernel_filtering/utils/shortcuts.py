@@ -16,7 +16,10 @@ import matplotlib.pyplot as plt
 def plot_series(data, prediction, **kwargs):
     """Shortcut to plot 2D series estimate vs target """
 
-    plt.figure()
+    if 'figsize' in kwargs:
+        plt.figure(figsize=kwargs['figsize'])
+    else:
+        plt.figure()
     if 'title' in kwargs:
         plt.title(kwargs['title'])
     if 'xlim' in kwargs:
