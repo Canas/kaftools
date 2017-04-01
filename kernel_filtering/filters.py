@@ -22,7 +22,7 @@ from kernel_filtering.utils.shortcuts import timeit
 class Filter:
     """Base class for filter implementations. """
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, **kwargs):
         if x.ndim > 1 and x.shape[-1] == 1:
             self.x = x.ravel()
         else:
@@ -61,8 +61,8 @@ class KlmsFilter(Filter):
     """Original SISO KLMS filter with optional delayed input. """
 
     @timeit
-    def fit(self, kernel=GaussianKernel(sigma=1.0), learning_rate=1.0, delay=0,
-            kernel_learning_rate=None, sparsifiers=None):
+    def fit(self, kernel=GaussianKernel(sigma=1.0), learning_rate=1.0, delay=1,
+            kernel_learning_rate=None, sparsifiers=None, **kwargs):
         """Fit data using KLMS algorithm.
 
         :param kernel: Kernel class object
@@ -79,9 +79,17 @@ class KlmsFilter(Filter):
         self.learning_rate = learning_rate
         self.delay = delay
 
-        self.coefficients = np.array([self.y[delay]])
+        if kwargs.get('coefs'):
+            self.coefficients = kwargs['coefficients']
+        else:
+            self.coefficients = np.array([self.y[delay]])
+
+        if kwargs.get('dict'):
+            self.support_vectors = kwargs['dict']
+        else:
+            self.support_vectors = np.array([self.x[0:delay]])
+
         self.coefficient_history = [self.coefficients]
-        self.support_vectors = np.array([self.x[0:delay]])
 
         self.error_history = [0] * delay
         self.kernel = kernel
