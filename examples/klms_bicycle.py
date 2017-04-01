@@ -14,8 +14,6 @@ if __name__ == "__main__":
         'kernel': GaussianKernel(sigma=10),
         'learning_rate': 5e-4,
         'delay': 5,
-        # 'coefs': some_coefs,
-        # 'dict': some_dict
     }
     klms = KlmsFilter(y_noise, y_noise)
     klms.fit(**klms_params)
