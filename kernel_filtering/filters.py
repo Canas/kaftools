@@ -60,7 +60,6 @@ class Filter:
 class KlmsFilter(Filter):
     """Original SISO KLMS filter with optional delayed input. """
 
-    @timeit
     def fit(self, kernel=GaussianKernel(sigma=1.0), learning_rate=1.0, delay=1,
             kernel_learning_rate=None, sparsifiers=None, **kwargs):
         """Fit data using KLMS algorithm.
@@ -79,15 +78,8 @@ class KlmsFilter(Filter):
         self.learning_rate = learning_rate
         self.delay = delay
 
-        if kwargs.get('coefs'):
-            self.coefficients = kwargs['coefficients']
-        else:
-            self.coefficients = np.array([self.y[delay]])
-
-        if kwargs.get('dict'):
-            self.support_vectors = kwargs['dict']
-        else:
-            self.support_vectors = np.array([self.x[0:delay]])
+        self.coefficients = kwargs.get('coefs', np.array([self.y[delay]]))
+        self.support_vectors = kwargs.get('dict', np.array([self.x[0:delay]]))
 
         self.coefficient_history = [self.coefficients]
 
@@ -95,7 +87,7 @@ class KlmsFilter(Filter):
         self.kernel = kernel
         self.param_history = [kernel.params]
 
-        for i in range(1, self.n - delay):
+        for i in range(0, self.n - delay):
             self.regressor = self.x[i:i+delay]
 
             self.similarity = kernel(self.support_vectors, self.regressor)
