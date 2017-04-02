@@ -87,6 +87,7 @@ class KlmsFilter(Filter):
         self.kernel = kernel
         self.param_history = [kernel.params]
 
+        freeze_dict = kwargs.get('freeze_dict', False)
         for i in range(0, self.n - delay):
             self.regressor = self.x[i:i+delay]
 
@@ -111,12 +112,13 @@ class KlmsFilter(Filter):
                     sigmas.append(new_sigma)
                 self.param_history.append(sigmas)
 
-            if sparsifiers:
-                for sparsifier in sparsifiers:
-                    sparsifier.apply(self)
-            else:
-                self.support_vectors = np.append(self.support_vectors, [self.regressor], axis=0)
-                self.coefficients = np.append(self.coefficients, [learning_rate * self.error])
+            if not freeze_dict:
+                if sparsifiers:
+                    for sparsifier in sparsifiers:
+                        sparsifier.apply(self)
+                else:
+                    self.support_vectors = np.append(self.support_vectors, [self.regressor], axis=0)
+                    self.coefficients = np.append(self.coefficients, [learning_rate * self.error])
 
             self.coefficient_history.append(np.array([self.coefficients]))
 
