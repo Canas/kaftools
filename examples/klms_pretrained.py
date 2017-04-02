@@ -4,20 +4,24 @@ import numpy as np
 from kernel_filtering.filters import KlmsFilter
 from kernel_filtering.kernels import GaussianKernel
 from kernel_filtering.utils.shortcuts import plot_series
+from kernel_filtering.sparsifiers import NoveltyCriterion
 
 if __name__ == "__main__":
     # Cargar datos
-    data = np.load('./data/pretrained_data_wind.npz')
+    data = np.load('./data/pretrained_data_lorentz.npz')
 
+    # sparsify lorentz : lr(1e-2), novelty(0.99919, 1.0)
+    # sparsify wind: lr(1e-2), novelty(0.9934, 1.0)
     # Configurar KLMS
     klms_params = {
         'kernel': GaussianKernel(sigma=float(data['sigma_k_post'])),
-        'learning_rate': 5e-4,
+        'learning_rate': 1e-2, #5e-4,
         'delay': int(data['delay']),
-        'coefs': data['a_post'],
-        'dict': data['s_post'].T
+        'sparsifiers': [NoveltyCriterion(0.99919, 1.0)]
+        #'coefs': data['a_post'],
+        #'dict': data['s_post'].T
     }
-    np.seterr(all='raise')
+    # np.seterr(all='raise')
 
     klms = KlmsFilter(data['y_prog'], data['y_prog'])
     klms.fit(**klms_params)
