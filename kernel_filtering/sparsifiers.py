@@ -41,7 +41,7 @@ class NoveltyCriterion(SparsifyMethod):
         super().__init__([distance_delta, error_delta])
 
     def apply(self, kfilter):
-        if np.max(kfilter.similarity) <= self.params[0] and np.abs(kfilter.error) <= self.params[1]:
+        if np.max(kfilter.similarity) <= self.params[0] and np.abs(kfilter.error) >= self.params[1]:
             kfilter.support_vectors = np.append(kfilter.support_vectors, [kfilter.regressor], axis=0)
             kfilter.coefficients = np.append(kfilter.coefficients, [0.0])
 
