@@ -1,10 +1,10 @@
 import numpy as np
 from scipy.io import loadmat
 
-from kernel_filtering.filters import KlmsFilter, KlmsxFilter, KrlsFilter
-from kernel_filtering.kernels import GaussianKernel, MultiChannelGaussianKernel
-from kernel_filtering.sparsifiers import NoveltyCriterion, ApproximateLinearDependency
-from kernel_filtering.utils.shortcuts import plot_series
+from kaftools.filters import KlmsFilter, KlmsxFilter, KrlsFilter
+from kaftools.kernels import GaussianKernel, MultiChannelGaussianKernel
+from kaftools.sparsifiers import NoveltyCriterion, ApproximateLinearDependency
+from kaftools.utils.shortcuts import plot_series
 
 if __name__ == "__main__":
     # KLMS data

@@ -1,8 +1,8 @@
 from scipy.io import loadmat
 import matplotlib.pyplot as plt
 
-from kernel_filtering.filters import KlmsFilter
-from kernel_filtering.kernels import GaussianKernel
+from kaftools.filters import KlmsFilter
+from kaftools.kernels import GaussianKernel
 
 if __name__ == "__main__":
     # Cargar datos

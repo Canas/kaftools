@@ -2,9 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.io import loadmat
 
-from kernel_filtering.filters import KlmsxFilter
-from kernel_filtering.kernels import MultiChannelGaussianKernel
-from kernel_filtering.sparsifiers import NoveltyCriterion
+from kaftools.filters import KlmsxFilter
+from kaftools.kernels import MultiChannelGaussianKernel
+from kaftools.sparsifiers import NoveltyCriterion
 
 if __name__ == "__main__":
     # Cargar datos

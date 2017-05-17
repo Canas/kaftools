@@ -1,10 +1,10 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from kernel_filtering.filters import KlmsFilter
-from kernel_filtering.kernels import GaussianKernel
-from kernel_filtering.utils.shortcuts import plot_series, plot_squared_error
-from kernel_filtering.sparsifiers import NoveltyCriterion
+from kaftools.filters import KlmsFilter
+from kaftools.kernels import GaussianKernel
+from kaftools.utils.shortcuts import plot_series, plot_squared_error
+from kaftools.sparsifiers import NoveltyCriterion
 
 if __name__ == "__main__":
     # Cargar datos

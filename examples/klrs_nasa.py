@@ -2,10 +2,10 @@ import time
 
 from scipy.io import loadmat
 
-from kernel_filtering.filters import KrlsFilter
-from kernel_filtering.kernels import GaussianKernel
-from kernel_filtering.sparsifiers import ApproximateLinearDependency
-from kernel_filtering.utils.shortcuts import plot_series
+from kaftools.filters import KrlsFilter
+from kaftools.kernels import GaussianKernel
+from kaftools.sparsifiers import ApproximateLinearDependency
+from kaftools.utils.shortcuts import plot_series
 
 if __name__ == "__main__":
     # Cargar datos
