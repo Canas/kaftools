@@ -133,13 +133,13 @@ class KlmsxFilter(KlmsFilter):
             super().__init__(x, y)
 
     def fit(self, kernel=MultiChannelGaussianKernel(sigmas=(1.0, 1.0)), learning_rate=1.0, delay=0,
-            kernel_learning_rate=None, sparsifiers=None):
+            kernel_learning_rate=None, sparsifiers=None, **kwargs):
 
         if len(kernel.params) != self.x.shape[-1]:
             raise Exception("There must be at least one Kernel parameter per input channel.")
 
         super().fit(kernel=kernel, learning_rate=learning_rate, delay=delay,
-                    kernel_learning_rate=kernel_learning_rate, sparsifiers=sparsifiers)
+                    kernel_learning_rate=kernel_learning_rate, sparsifiers=sparsifiers, **kwargs)
 
 
 class KrlsFilter(Filter):
