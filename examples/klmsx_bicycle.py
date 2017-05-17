@@ -18,7 +18,7 @@ if __name__ == "__main__":
         'learning_rate': 0.02,
         'delay': 30,
         'kernel': MultiChannelGaussianKernel(sigmas=(6.42, 25.18)),
-        'sparsifiers': [NoveltyCriterion(0.975, 1)]
+        'sparsifiers': [NoveltyCriterion(0.975, 0.8)]
     }
     klmsx = KlmsxFilter(y_a_noise, y_noise)
     klmsx.fit(**klmsx_params)
