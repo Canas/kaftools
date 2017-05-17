@@ -10,6 +10,7 @@ kernel_filtering that can be useful for external scripts.
 import time
 import re
 
+import numpy as np
 import matplotlib.pyplot as plt
 
 
@@ -17,9 +18,9 @@ def plot_series(data, prediction, **kwargs):
     """Shortcut to plot 2D series estimate vs target """
 
     if 'figsize' in kwargs:
-        plt.figure(figsize=kwargs['figsize'])
+        fig = plt.figure(figsize=kwargs['figsize'])
     else:
-        plt.figure()
+        fig = plt.figure()
     if 'title' in kwargs:
         plt.title(kwargs['title'])
     if 'xlim' in kwargs:
@@ -32,7 +33,29 @@ def plot_series(data, prediction, **kwargs):
 
     plt.plot(data, 'ro', markersize=markersize)
     plt.plot(prediction, 'b-', linewidth=linewidth)
+    #return fig
+
+
+def plot_squared_error(error_history, **kwargs):
+    sqerror = np.asarray(error_history)**2
+    """Shortcut to plot squared error """
+
+    if 'figsize' in kwargs:
+        fig = plt.figure(figsize=kwargs['figsize'])
+    else:
+        fig = plt.figure()
+    if 'title' in kwargs:
+        plt.title(kwargs['title'])
+    if 'xlim' in kwargs:
+        plt.xlim(kwargs['xlim'])
+    if 'ylim' in kwargs:
+        plt.ylim(kwargs['ylim'])
+
+    linewidth = kwargs.pop('linewidth', 2.0)
+
+    plt.semilogy(sqerror, 'b-', linewidth=linewidth)
     plt.show()
+    return fig
 
 
 def timeit(f):
