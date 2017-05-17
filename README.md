@@ -1,3 +1,5 @@
+**Warning: this is a side-project in progress so many bugs could arise. Please raise an issue if this happens.**
+
 # Kernel Adaptive Filtering for Python
 This package implements several Kernel Adaptive Filtering algorithms for research purposes. It aims to be easily extendable.
 
@@ -26,8 +28,8 @@ For a more visual comparison, check the [latest features sheet](https://docs.goo
 # Quickstart
 Let's do a simple example using a KLMS Filter over given input and target arrays:
 ```
-from kernel_filtering.filters import KlmsFilter
-from kernel_filtering.kernels import GaussianKernel
+from kaftools.filters import KlmsFilter
+from kaftools.kernels import GaussianKernel
 
 klms = KlmsFilter(input, target)
 klms.fit(learning_rate=0.1, kernel=GaussianKernel(sigma=0.1))
