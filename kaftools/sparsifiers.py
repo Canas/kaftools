@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-kernel_filtering.sparsifiers
+kaftools.sparsifiers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This module provides sparsifier classes for Sparsification criteria.
@@ -14,7 +14,7 @@ for detailed comparisons.
 
 import numpy as np
 
-from kernel_filtering.filters import KrlsFilter
+from kaftools.filters import KrlsFilter
 
 
 class SparsifyMethod(object):

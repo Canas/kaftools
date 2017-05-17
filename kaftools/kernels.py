@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-kernel_filtering.kernels
+kaftools.kernels
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 This module provides kernel classes for similarity evaluation.

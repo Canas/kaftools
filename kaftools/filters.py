@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-kernel_filtering.filters
+kaftools.filters
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 This module provides adaptive kernel filtering classes.
@@ -15,8 +15,8 @@ for detailed comparisons.
 
 import numpy as np
 
-from kernel_filtering.kernels import GaussianKernel, MultiChannelGaussianKernel
-from kernel_filtering.utils.shortcuts import timeit
+from kaftools.kernels import GaussianKernel, MultiChannelGaussianKernel
+from kaftools.utils.shortcuts import timeit
 
 
 class Filter:
