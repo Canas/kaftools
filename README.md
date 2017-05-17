@@ -1,4 +1,4 @@
-# Adaptive Kernel Filtering for Python
+# Kernel Adaptive Filtering for Python
 This package implements several Kernel Adaptive Filtering algorithms for research purposes. It aims to be easily extendable.
 
 # Requirements
