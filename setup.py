@@ -8,7 +8,7 @@ setup(
     license='BSD',
     author='Cristóbal Silva',
     author_email='crsilva@ing.uchile.cl',
-    description='Small library with Kernel Adaptive Filtering (KAF) methods.',
+    description='Small extensible package for Kernel Adaptive Filtering (KAF) methods.',
     install_requires=[
         'numpy',
         'matplotlib',
