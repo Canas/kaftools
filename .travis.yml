@@ -1,6 +1,6 @@
 language: python
+
 python:
-  - "2.6"
   - "2.7"
   - "3.3"
   - "3.4"
@@ -8,8 +8,11 @@ python:
   - "3.6"
   - "pypy"
   - "pypy3"
+
 install:
   - pip install --upgrade pip setuptools wheel
   - pip install --only-binary=numpy,scipy numpy scipy
   - pip install .
-script: pytest
+
+script: 
+  - py.test
