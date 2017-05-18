@@ -5,7 +5,7 @@ setup(
     version='0.1',
     packages=find_packages(),
     url='',
-    license='BSD',
+    license='MIT',
     author='Cristóbal Silva',
     author_email='crsilva@ing.uchile.cl',
     description='Small extensible package for Kernel Adaptive Filtering (KAF) methods.',
