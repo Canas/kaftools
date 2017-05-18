@@ -5,6 +5,7 @@ dist/
 
 # Python files/folders
 __pycache__
+cache
 
 # Pycharm files
 .idea
