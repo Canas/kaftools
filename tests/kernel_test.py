@@ -3,7 +3,7 @@ import unittest
 import numpy as np
 import numpy.testing as npt
 
-from ..kernels import MultiChannelGaussianKernel, GaussianKernel, LinearKernel
+from kaftools.kernels import MultiChannelGaussianKernel, GaussianKernel, LinearKernel
 
 
 class GaussianTests(unittest.TestCase):
