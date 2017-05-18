@@ -9,7 +9,7 @@ This package implements several Kernel Adaptive Filtering algorithms for researc
 - Python 3.4+
 - NumPy
 - SciPy
-- (Optional) Matplotlib
+- Matplotlib
 
 # Features
 ## Adaptive Kernel Filters
