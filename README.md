@@ -1,10 +1,12 @@
 **Warning: this is a side-project in progress so many bugs could arise. Please raise an issue if this happens.**
 
 # Kernel Adaptive Filtering for Python
+[![Build Status](https://travis-ci.org/Canas/kaftools.svg?branch=master)](https://travis-ci.org/Canas/kaftools) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/Canas/kaftools/master/LICENSE)
+
 This package implements several Kernel Adaptive Filtering algorithms for research purposes. It aims to be easily extendable.
 
 # Requirements
-- Python 3
+- Python 3.4+
 - NumPy
 - SciPy
 - (Optional) Matplotlib
