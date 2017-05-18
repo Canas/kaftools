@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-kernel_filtering.utils.shortcuts
+kaftools.utils.shortcuts
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This module provides utility functions that are used within
-kernel_filtering that can be useful for external scripts.
+kaftools that can be useful for external scripts.
 """
 
 import time

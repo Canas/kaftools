@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-kernel_filtering.utils.data
+kaftools.utils.data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This module provides utility functions that can be used to
