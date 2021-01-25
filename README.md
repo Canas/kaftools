@@ -5,12 +5,6 @@
 
 This package implements several Kernel Adaptive Filtering algorithms for research purposes. It aims to be easily extendable.
 
-# Requirements
-- Python 3.4+
-- NumPy
-- SciPy
-- Matplotlib
-
 # Features
 ## Adaptive Kernel Filters
 - Kernel Least Mean Squares (KLMS) - `KlmsFilter`
