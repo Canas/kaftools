@@ -1,0 +1,27 @@
+on: ["push", "pull_request"]
+
+name: Test Coveralls
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Setup Python 3.6
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.6'
+
+    - name: Make test-coverage
+      run: |
+        pip install -r requirements-dev.txt
+        python -m pytest --cov=kaftools tests
+
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
