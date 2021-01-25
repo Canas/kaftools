@@ -1,1 +1,2 @@
-test: python -m pytest --cov=kaftools tests
+test:
+	python -m pytest --cov=kaftools tests
