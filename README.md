@@ -1,7 +1,9 @@
 **Warning: this is a side-project in progress so many bugs could arise. Please raise an issue if this happens.**
 
 # Kernel Adaptive Filtering for Python
-[![Build Status](https://travis-ci.org/Canas/kaftools.svg?branch=master)](https://travis-ci.org/Canas/kaftools) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/Canas/kaftools/master/LICENSE)
+[![Build Status](https://travis-ci.org/Canas/kaftools.svg?branch=master)](https://travis-ci.org/Canas/kaftools)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/Canas/kaftools/master/LICENSE)
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/Canas/kaftools)
 
 This package implements several Kernel Adaptive Filtering algorithms for research purposes. It aims to be easily extendable.
 
